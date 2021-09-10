@@ -18,13 +18,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <ul class="taskList" v-for="(list, key) in lists" :key="key">
-              {{key}}  {{ list.task }}
-              <button class="stateTask" v-if="loginType === 'username'">作業中</button>  
-              <button class="stateTask" v-else>完了</button>
+          <tr class="taskList" v-for="(list, key) in lists" :key="key">
+            <tb>{{key}} {{ list.task }}</tb>
+            <tb>
+              <button class="stateTask">作業中</button>  
               <button class="deleteTask" @click="deleteList(key)">削除</button> 
-            </ul>
+            </tb>
           </tr>
         </tbody>
       </table>
@@ -48,7 +47,7 @@ export default {
       this.task = ''
     },
     //削除機能
-  
+
   }
 };
 </script>
