@@ -19,11 +19,11 @@
         </thead>
         <tbody>
           <tr class="taskList" v-for="(list, key) in lists" :key="key">
-            <tb>{{key}} {{ list.task }}</tb>
-            <tb>
+            <td>{{key}} {{ list.task }}</td>
+            <td>
               <button class="stateTask">作業中</button>  
               <button class="deleteTask" @click="deleteList(key)">削除</button> 
-            </tb>
+            </td>
           </tr>
         </tbody>
       </table>
