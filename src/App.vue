@@ -47,7 +47,9 @@ export default {
       this.task = ''
     },
     //削除機能
-
+     deleteList:function(key){
+      this.lists.splice(key, 1)
+    },
   }
 };
 </script>
