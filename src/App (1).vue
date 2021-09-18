@@ -18,10 +18,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="taskList" v-for="(list, key) in lists" :key="list.status">
+          <tr class="taskList" v-for="(list, key) in lists" :key="key">
             <td>{{key}} {{ list.task }}</td>
             <td>
-              <button class="statusTask" @click="changeStatus(key)">{{list.status}}</button>
+              <input type="button" class="statusTask" v-model="status" @click="statusChange(key)">{{status}}
               <button class="deleteTask" @click="deleteList(key)">削除</button> 
             </td>
           </tr>
@@ -30,7 +30,7 @@
     </div>
     <div>
       <h2>新規タスクの追加</h2>
-      <input type="text" v-model="newTask">
+      <input type="text" v-model="task">
       <input type="submit" value="追加" @click="addList">
     </div>
   </div>
@@ -39,29 +39,26 @@
 export default {
   data: () => ({
     lists:[],
-    newTask:''
+    status:'作業中'
   }),
   methods:{
     // Todoの追加
-    addList:function(e){
-      e.preventDefault();
-      if (this.newTask.match(/\S/g)) 
-        this.lists.push({
-          task: this.newTask,
-          status:"作業中",
-      });
+    addList:function(){
+      this.lists.push({task: this.task})
+      this.task = ''
     },
     //削除機能
-    deleteList:function(key){
+     deleteList:function(key){
       this.lists.splice(key, 1)
     },
     //状態の変更
-    changeStatus:function(key) {
-      if (this.lists[key].status === "作業中"){
-        this.lists[key].status = "完了";
-      }else if(this.lists[key].status === "完了") {
-        this.lists[key].status = "作業中";
+    statusChange:function(key){
+      if(this.status === '作業中'){
+        this.status = '完了'
+      }else{
+        this.status = '作業中'
       }
+      return this.status
     }
   }
 };
