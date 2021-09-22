@@ -2,11 +2,11 @@
   <div id="app">
     <h1 class="title">ToDoリスト</h1>
     <div>
-      <input type="radio" id="all" value="all" v-model="radioTask">
+      <input type="radio" id="all" value="all" checked @change="all" v-model="radio">
       <label for="all">すべて</label>
-      <input type="radio" id="wark" value="work" v-model="radioTask">
+      <input type="radio" id="wark" value="work" @change="work" v-model="radio">
       <label for="work">作業中</label>
-      <input type="radio" id="done" value="done" v-model="radioTask">
+      <input type="radio" id="done" value="done" @change="done" v-model="radio">
       <label for="done">完了</label>
     </div>
     <div>
@@ -18,11 +18,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="taskList" v-for="(list, key) in lists" :key="list.status">
-            <td>{{key}} {{ list.task }}</td>
+          <tr class="taskList" v-for="(list, key) in viewTodos" :key="key">
+            <td>{{list.id}} {{ list.task }}</td>
             <td>
-              <button class="statusTask" @click="changeStatus(key)">{{list.status}}</button>
-              <button class="deleteTask" @click="deleteList(key)">削除</button> 
+              <button class="statusTask" @click="changeStatus(list.id)">{{list.status}}</button>
+              <button class="deleteTask" @click="deleteList(list.id)">削除</button> 
             </td>
           </tr>
         </tbody>
@@ -39,29 +39,53 @@
 export default {
   data: () => ({
     lists:[],
-    newTask:''
+    newTask:'',
+    displayState:''
   }),
+  computed:{
+    viewTodos(){
+      return this.displayState
+      ? this.lists.filter((i) => i.status === this.displayState)
+      : this.lists
+    }
+  },
   methods:{
     // Todoの追加
     addList:function(e){
       e.preventDefault();
       if (this.newTask.match(/\S/g)) 
         this.lists.push({
+          id: this.lists.length,
           task: this.newTask,
           status:"作業中",
       });
+      this.newTask=''
     },
     //削除機能
-    deleteList:function(key){
-      this.lists.splice(key, 1)
+    deleteList:function(id){
+      if(id > -1)
+      this.lists.splice(id, 1);
+      this.lists.forEach((list, key) => {
+        list.id = key
+      })
     },
     //状態の変更
-    changeStatus:function(key) {
-      if (this.lists[key].status === "作業中"){
-        this.lists[key].status = "完了";
-      }else if(this.lists[key].status === "完了") {
-        this.lists[key].status = "作業中";
+    changeStatus:function(id){
+      const list = this.lists[id]
+      if (list.status === "作業中"){
+        list.status = "完了";
+      }else if(list.status === "完了") {
+        list.status = "作業中";
       }
+    },
+    all(){
+      this.displayState = ''
+    },
+    done(){
+      this.displayState = '完了'
+    },
+    work(){
+      this.displayState = '作業中'
     }
   }
 };
@@ -77,10 +101,12 @@ ul{
 .deleteTask{
   position:fixed;
   left:160px;
+  margin: -0.8em;
 }
 .statusTask{
   position:fixed;
   left:100px;
+  margin: -0.8em;
 }
 th.state{
   position:fixed;
