@@ -38,12 +38,12 @@
 <script>
 export default {
   data: () => ({
-    lists:[],
-    newTask:'',
-    displayState:''
+    lists: [],
+    newTask: "",
+    displayState: ""
   }),
   computed:{
-    viewTodos(){
+    viewTodos:function(){
       return this.displayState
       ? this.lists.filter((i) => i.status === this.displayState)
       : this.lists
@@ -57,9 +57,9 @@ export default {
         this.lists.push({
           id: this.lists.length,
           task: this.newTask,
-          status:"作業中",
+          status: "作業中",
       });
-      this.newTask=''
+      this.newTask = ""
     },
     //削除機能
     deleteList:function(id){
@@ -78,38 +78,38 @@ export default {
         list.status = "作業中";
       }
     },
-    all(){
-      this.displayState = ''
+    all:function(){
+      this.displayState = ""
     },
-    done(){
-      this.displayState = '完了'
+    done:function(){
+      this.displayState = "完了"
     },
-    work(){
-      this.displayState = '作業中'
+    work:function(){
+      this.displayState = "作業中"
     }
   }
 };
 </script>
 <style>
 ul{
-  list-style:none;
+  list-style: none;
   padding-left: 0;
 }
 .taskList{
-  letter-spacing:0.2em;  
+  letter-spacing: 0.2em;  
 }
 .deleteTask{
-  position:fixed;
-  left:160px;
+  position: fixed;
+  left: 160px;
   margin: -0.8em;
 }
 .statusTask{
-  position:fixed;
-  left:100px;
+  position: fixed;
+  left: 100px;
   margin: -0.8em;
 }
 th.state{
-  position:fixed;
+  position: fixed;
   left: 135px;
 }
 </style>
